@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $blogs = App\Blog::latest()->get();
+    return view('welcome',compact('blogs'));
 });
 
 Auth::routes();

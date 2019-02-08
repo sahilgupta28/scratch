@@ -2,7 +2,7 @@
 
 class Helper{
 
-    public function create_slug($title,$table){
+    public static function create_slug($title,$table){
         $slug = str_slug($title, '-');
         $counter = 0;
         $flag = true;
@@ -13,5 +13,26 @@ class Helper{
                 $flag = false;
             }
         }while($flag);
+        return $slug;
+    }
+
+    public static function flashCreated($title="")
+    {
+        Session::flash('success',"$title has been created Sucessfully"); 
+    }
+
+    public static function flashUpdated($title="")
+    {
+        Session::flash('success',"$title has been updated Sucessfully"); 
+    }
+
+    public static function flashError()
+    {
+        Session::flash('error','Some technical error found.'); 
+    }
+
+    public static function flashDelete($title="")
+    {
+        Session::flash('success',"$title has been deleted Sucessfully"); 
     }
 }

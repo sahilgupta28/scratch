@@ -14,7 +14,7 @@
                     @if($blogs->count() > 0)
                         @foreach($blogs as $blog)
                             <div class="card">
-                                <div class="card-header"><a href="{{route('blogs.show',$blog->id)}}">{{$blog->title}}</a><span class="float-right">{{$blog->created_at->diffForHumans()}} By <a href="#">{{$blog->owner->name}}</a></span></div>
+                                <div class="card-header"><a href="{{route('blogs.show',$blog->id)}}">{{$blog->title}}</a><span class="float-right">{{$blog->created_at->diffForHumans()}}</span></div>
                                 <div class="card-body">
                                     {{$blog->description}}
                                 </div>
