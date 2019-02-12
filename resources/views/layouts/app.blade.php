@@ -39,6 +39,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('blogs.index') }}">{{ __('Blog') }}</a>
                         </li>
+                        @can('OnlyAdminHasAccess',\Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('user.index') }}">{{ __('Users') }}</a>
+                            </li>
+                        @endcan
                     </ul>
 
                     <!-- Right Side Of Navbar -->

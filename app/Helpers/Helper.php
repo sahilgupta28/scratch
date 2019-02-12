@@ -26,9 +26,9 @@ class Helper{
         Session::flash('success',"$title has been updated Sucessfully"); 
     }
 
-    public static function flashError()
+    public static function flashError($msg = "")
     {
-        Session::flash('error','Some technical error found.'); 
+        Session::flash('error','Some technical error found. '.$msg ); 
     }
 
     public static function flashDelete($title="")

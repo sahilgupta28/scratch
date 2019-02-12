@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role',
     ];
 
     /**
@@ -36,7 +36,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     const ROLES =['admin','writer','user'];
 
     public static function getAllRoles()
@@ -44,8 +43,18 @@ class User extends Authenticatable
         return self::ROLES;
     }
 
+    public function getRole()
+    {
+        return self::ROLES[$this->role - 1];
+    }
+
     public static function getAllRolesExceptsAdmin()
     {
         return ['1'=>self::ROLES[1],'2'=>self::ROLES[2]];
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 1;
     }
 }

@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 Use Helper;
 Use Session;
 Use Auth;
+use Mail;
+use App\Mail\BlogCreated;
 
 class BlogsController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['show']);
     }
 
     /**
@@ -46,20 +48,14 @@ class BlogsController extends Controller
         $request->validate(Blog::rules());
         $request['slug'] = Helper::create_slug($request->title,Blog::class);
         $request['owner_id'] = auth()->user()->id;
-        // dd($request->all());
-        if(Blog::create($request->all())){
-            Helper::flashCreated('Blog'); 
-            return redirect()->route('blogs.index');
+        try{
+            $blog = Blog::create($request->all());
+            $mail = Mail::to($blog->owner->email)->send(new BlogCreated($blog));
+            Helper::flashCreated('Blog');
+        }catch(\Exception $e){
+            Helper::flashError($e->getMessage());
         }
-        Helper::flashError();         
-        return back();
-        // try{
-        //     Blog::create($request->all());
-        //     Session::flash('success','Blog has been created Sucessfully'); 
-        // }catch(\Exception $e){
-        //     Session::flash('error','Some technical error found. '. $e->getMessage());
-        // }
-        // return back();
+        return redirect()->route('blogs.index');
     }
 
     /**
